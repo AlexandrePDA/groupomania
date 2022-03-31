@@ -43,8 +43,8 @@ exports.all = async (req, res, next) => {
       include: {
         profile: true,
         posts: true,
-        Commentaire: true,
-        Likes: true,
+        // Commentaire: true,
+        likes: true,
       }
     });
     res.status(200).json({
