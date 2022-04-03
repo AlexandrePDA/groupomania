@@ -29,11 +29,10 @@ app.use(express.json());
 
 
 // routes
-app.use('/api', userRoutes);
-app.use('/api', profileRoutes);
-app.use('/api', postRoutes);
-app.use('/api', commentRoutes);
-app.use('/api', likeRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/profiles', profileRoutes);
+app.use('/api/posts', postRoutes);
+
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 

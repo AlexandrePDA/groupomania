@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 exports.getProfile = async (req, res, next) => {
   try {
-    const { id } = req.user.payload.id;
+    const { id } = req.user.id;
     const profile = await prisma.profile.findUnique({
       where: {
         userId: Number(id),
@@ -27,7 +27,7 @@ exports.getProfile = async (req, res, next) => {
 
 exports.editProfileBio = async (req, res, next) => {
   try {
-    const id = req.user.payload.id;
+    const id = req.user.id;
     const { bio } = req.body;
     const profile = await prisma.profile.update({
       where: {
@@ -50,7 +50,7 @@ exports.editProfileBio = async (req, res, next) => {
 
 exports.editProfilePicture = async (req, res, next) => {
   try {
-    const id = req.user.payload.id;
+    const id = req.user.id;
     const image = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`;

@@ -8,7 +8,7 @@ const fs = require("fs");
 exports.createPost = async (req, res, next) => {
   try {
     const { title, content, imageAltText } = JSON.parse(req.body.formContent);
-    const userId = req.user.payload.id;
+    const userId = req.user.id;
     const image = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`;
@@ -108,8 +108,8 @@ exports.onePost = async (req, res, next) => {
 
 exports.deletePost = async (req, res, next) => {
   if (
-    req.user.payload.isAdmin === 1 ||
-    req.body.post.userId === req.user.payload.id
+    req.user.isAdmin === 1 ||
+    req.body.post.userId === req.user.id
   ) {
     const image = req.body.image;
     const filename = String(image).split("/image/")[1];

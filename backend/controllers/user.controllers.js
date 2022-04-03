@@ -43,7 +43,7 @@ exports.all = async (req, res, next) => {
       include: {
         profile: true,
         posts: true,
-        // Commentaire: true,
+        commentaire: true,
         likes: true,
       }
     });
@@ -62,7 +62,8 @@ exports.all = async (req, res, next) => {
 
 exports.oneUserProfile = async (req, res, next) => {
   try {
-    const id = req.user.payload.id;
+    const id = req.user;
+    console.log(id);
     const oneUser = await prisma.user.findUnique({
       where: {
         id: Number(id),
@@ -83,10 +84,10 @@ exports.oneUserProfile = async (req, res, next) => {
 };
 
 // SHOW ONE USER
-
+//
 exports.oneUser = async (req, res, next) => {
   try {
-    const id = req.user.payload.id;
+    const id = req.user.id;
     const oneUser = await prisma.user.findUnique({
       where: {
         id: Number(id),
@@ -109,7 +110,7 @@ exports.oneUser = async (req, res, next) => {
 // DELETE USER
 
 exports.deleteUser = async (req, res, next) => {
-  if (req.user.payload.isAdmin === 1) {
+  if (req.user.isAdmin === 1) {
     try {
       const user = await prisma.user.delete({
         where: {
@@ -134,7 +135,7 @@ exports.deleteOwn = async (req, res, next) => {
   try {
     const user = await prisma.user.delete({
       where: {
-        id: Number(req.user.payload.id),
+        id: Number(req.user.id),
       },
     });
     res.status(201).json({
@@ -148,4 +149,4 @@ exports.deleteOwn = async (req, res, next) => {
   }
 };
 
-// **!!!** à verifier s'il faut mettre prisma ou groupomania
+

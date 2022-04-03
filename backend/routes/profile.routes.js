@@ -6,7 +6,7 @@ const auth = require('../middleware/auth.middleware')
 const multer = require('../middleware/multer-config.middleware')
 
 // read / get
-router.get('/profile/:id', auth, profile.getProfile)
+router.get('/:id', auth, profile.getProfile)
 
 // update / put
 router.put('/editProfileBio', auth, profile.editProfileBio)

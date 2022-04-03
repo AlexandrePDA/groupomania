@@ -16,7 +16,7 @@ model User {
   username  String? @db.VarChar(255) @unique
   password  String 
   posts     Post[]
-  // commentaire Commentaire[]
+  commentaire Commentaire[]
   profile   Profile?
   likes     Likes[]
   isAdmin   Int @default(0)
@@ -49,6 +49,7 @@ model Commentaire {
   comment   String
   createAt  DateTime @default(now())
   post      Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId    Int
   userId    Int
 }
