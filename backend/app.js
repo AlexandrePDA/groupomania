@@ -8,8 +8,7 @@ const path = require("path");
 const userRoutes = require("./routes/user.routes");
 const profileRoutes = require("./routes/profile.routes");
 const postRoutes = require("./routes/post.routes");
-const commentRoutes = require("./routes/comment.routes");
-const likeRoutes = require("./routes/likes.routes");
+const bodyParser = require("body-parser");
 
 // éviter les erreurs de CORS
 app.use((req, res, next) => {
@@ -25,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser.json());
 app.use(express.json());
 
 

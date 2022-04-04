@@ -7,7 +7,7 @@ const fs = require("fs");
 
 exports.createPost = async (req, res, next) => {
   try {
-    const { title, content, imageAltText } = JSON.parse(req.body.formContent);
+    const { title, content, imageAltText } = JSON.parse(req.body);
     const userId = req.user.id;
     const image = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename

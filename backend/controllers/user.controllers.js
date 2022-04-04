@@ -3,6 +3,8 @@ const auth = require("../services/auth.services");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+
+
 // SIGNUP
 
 exports.signup = async (req, res, next) => {
@@ -62,8 +64,7 @@ exports.all = async (req, res, next) => {
 
 exports.oneUserProfile = async (req, res, next) => {
   try {
-    const id = req.user;
-    console.log(id);
+    const id = req.user.id;
     const oneUser = await prisma.user.findUnique({
       where: {
         id: Number(id),
@@ -93,7 +94,7 @@ exports.oneUser = async (req, res, next) => {
         id: Number(id),
       },
       include: {
-        Likes: true,
+        likes: true,
       },
     });
     res.status(200).json({
@@ -133,9 +134,11 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.deleteOwn = async (req, res, next) => {
   try {
+    const id = req.user.id;
+    console.log(id);
     const user = await prisma.user.delete({
       where: {
-        id: Number(req.user.id),
+        id: Number(id),
       },
     });
     res.status(201).json({
