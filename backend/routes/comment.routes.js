@@ -7,6 +7,7 @@ const auth = require('../middleware/auth.middleware')
 // create / post 
 router.post('/', auth, comment.createComment)
 
+
 // delete 
 router.delete('/:id', auth, comment.deleteComment)
 

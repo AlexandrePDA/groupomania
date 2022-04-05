@@ -7,11 +7,11 @@ const fs = require("fs");
 
 exports.createPost = async (req, res, next) => {
   try {
-    const { title, content, imageAltText } = JSON.parse(req.body);
+    const { title, content, imageAltText } = req.body;
     const userId = req.user.id;
     const image = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
-    }`;
+    }`; // PB SUR LE FILENAME => SI JE L'ENLEVE ET MET UN STRING OU NUMBER LE POST EST CREE
     const post = await prisma.post.create({
       data: {
         title,

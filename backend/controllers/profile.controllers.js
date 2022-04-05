@@ -54,6 +54,7 @@ exports.editProfilePicture = async (req, res, next) => {
     const id = req.user.id;
     console.log(id);
     const image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    // PB SUR LE FILENAME => SI JE L'ENLEVE ET MET UN STRING OU NUMBER LA PHOTO EST MODIFIEE
     const profile = await prisma.profile.update({
       where: {
         userId: id,

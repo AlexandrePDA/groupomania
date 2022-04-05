@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 exports.createComment = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { comment, postId } = req.body;
     const userId = req.user.id;
     const commentaire = await prisma.commentaire.create({
@@ -16,7 +17,7 @@ exports.createComment = async (req, res, next) => {
         post: { connect: { id: postId } },
       },
     });
-    req.status(200).json({
+    res.status(200).json({
       status: true,
       message: "Comment created !",
       data: commentaire,
@@ -28,6 +29,7 @@ exports.createComment = async (req, res, next) => {
   }
 };
 
+
 // DELETE COMMENT
 
 exports.deleteComment = async (req, res, next) => {
@@ -38,7 +40,7 @@ exports.deleteComment = async (req, res, next) => {
         id: Number(id),
       },
     });
-    req.status(200).json({
+    res.status(200).json({
       status: true,
       message: "Comment deleted !",
       data: commentaire,

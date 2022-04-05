@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("../utils/jwt.utils");
 const createHttpError = require("http-errors");
 
-// user
+// create user
 exports.signup = async (req) => {
   const hash = bcrypt.hashSync(req.body.password, 10);
   const { email, name } = req.body;
