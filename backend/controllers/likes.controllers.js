@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 exports.addLike = async (req, res, next) => {
   try {
     const {postId} = req.params;
+    console.log(req.params);
     const userId = req.user.id;
     const addLike = await prisma.likes.create({
       data: {
@@ -14,7 +15,7 @@ exports.addLike = async (req, res, next) => {
           connect: { id: userId },
         },
         post: {
-          connect: postId,
+          connect: {id: Number(postId)},
         },
       },
     });
@@ -34,8 +35,8 @@ exports.addLike = async (req, res, next) => {
 exports.isLike = async (req, res, nex) => {
   try {
     const id = req.user.id;
-    const postId = req.payload.id;
-    const userLiked = await prisma.likes.findUnique({
+    const postId = req.params.postId;
+    const userLiked = await prisma.likes.findMany({
       where: {
         userId: Number(id),
         postId: Number(postId),

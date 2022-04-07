@@ -9,7 +9,7 @@ const multer = require('../middleware/multer-config.middleware')
 router.get('/:id', auth, profile.getProfile)
 
 // update / put
-router.put('/editProfileBio', auth, profile.editProfileBio)
-router.put('/editProfile/Picture', auth, multer, profile.editProfilePicture)
+router.put('/:id', auth, multer, profile.editProfile)
+
 
 module.exports = router;

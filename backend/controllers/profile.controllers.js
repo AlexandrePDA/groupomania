@@ -24,17 +24,20 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
-// EDIT BIO
+// EDIT PROFILE (BIO + PICTURE)
 
-exports.editProfileBio = async (req, res, next) => {
+exports.editProfile = async (req, res, next) => {
   try {
-    const id = req.user.id;
-    const { bio } = req.body;
+    const id = req.params.id;
+    const data = {bio: req.body.bio}
+    if(req.file) {
+      data.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    }
     const profile = await prisma.profile.update({
       where: {
-        userId: id,
+        userId: Number(id),
       },
-      data: { bio: bio },
+      data
     });
     res.status(201).json({
       status: true,
@@ -47,29 +50,3 @@ exports.editProfileBio = async (req, res, next) => {
   }
 };
 
-// EDIT PICTURE
-
-exports.editProfilePicture = async (req, res, next) => {
-  try {
-    const id = req.user.id;
-    console.log(id);
-    const image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-    // PB SUR LE FILENAME => SI JE L'ENLEVE ET MET UN STRING OU NUMBER LA PHOTO EST MODIFIEE
-    const profile = await prisma.profile.update({
-      where: {
-        userId: id,
-      },
-      data: {
-        image,
-      },
-    });
-    res.status(201).json({
-      status: true,
-      message: "Profile updated !",
-      data: profile,
-    });
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ message: error.message });
-  }
-};

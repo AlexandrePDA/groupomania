@@ -11,7 +11,7 @@ exports.createPost = async (req, res, next) => {
     const userId = req.user.id;
     const image = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
-    }`; // PB SUR LE FILENAME => SI JE L'ENLEVE ET MET UN STRING OU NUMBER LE POST EST CREE
+    }`;
     const post = await prisma.post.create({
       data: {
         title,
@@ -40,7 +40,7 @@ exports.allPost = async (req, res, next) => {
   try {
     const allPost = await prisma.post.findMany({
       orderBy: {
-        createdAt: "desc",
+        createAt: "desc",
       },
       include: {
         user: {
@@ -48,8 +48,8 @@ exports.allPost = async (req, res, next) => {
             profile: true,
           },
         },
-        Commentaire: true,
-        Likes: true,
+        commentaire: true,
+        likes: true,
       },
     });
     res.status(200).json({
@@ -57,7 +57,7 @@ exports.allPost = async (req, res, next) => {
       message: "All Posts",
       data: allPost,
     });
-  } catch (e) {
+  } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
   }
@@ -78,9 +78,9 @@ exports.onePost = async (req, res, next) => {
             profile: true,
           },
         },
-        Commentaire: {
+        commentaire: {
           orderBy: {
-            createdAt: "desc",
+            createAt: "desc",
           },
           include: {
             user: {
@@ -90,15 +90,20 @@ exports.onePost = async (req, res, next) => {
             },
           },
         },
-        Likes: true,
+        likes: true,
       },
     });
+    if (!onePost) {
+      return res.status(404).json({
+        message: "not found",
+      });
+    }
     res.status(200).json({
       status: true,
       message: "One post",
       data: onePost,
     });
-  } catch (e) {
+  } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
   }
@@ -107,10 +112,24 @@ exports.onePost = async (req, res, next) => {
 // DELETE POST
 
 exports.deletePost = async (req, res, next) => {
-  if (
-    req.user.isAdmin === 1 ||
-    req.body.post.userId === req.user.id
-  ) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: Number(req.params.id),
+    },
+    include: {
+      user: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+  if (!post) {
+    return res.status(404).json({
+      message: "not found",
+    });
+  }
+  if (req.user.isAdmin === 1 || post.userId === req.user.id) {
     const image = req.body.image;
     const filename = String(image).split("/image/")[1];
     fs.unlink(`image/${filename}`, async () => {
@@ -123,7 +142,6 @@ exports.deletePost = async (req, res, next) => {
         res.status(200).json({
           status: true,
           message: "Post deleted !",
-          data: post,
         });
       } catch (e) {
         console.log(error.message);
