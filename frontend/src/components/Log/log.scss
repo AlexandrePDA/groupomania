@@ -1,0 +1,27 @@
+body {
+  background: $colorDark;
+}
+
+.connectionForm {
+  border-radius: 1.5rem;
+  width: 50%;
+  margin: auto;
+  margin-top: 4rem;
+  @include glassmorphism;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    li {
+      margin: 2rem .4rem 1.5rem;
+      @include buttonStyle;
+      
+      &:hover {
+        @include hover;
+      }
+    }
+  }
+  .active-btn {
+      background: $colorLight;
+  }
+}
