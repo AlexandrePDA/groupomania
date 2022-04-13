@@ -7,6 +7,9 @@ const SignUpForm = () => {
 
   const handleSignUp = (e) => {};
 
+  
+
+  
   return (
     <form action="" onSubmit={handleSignUp} id="sign-form">
       <label htmlFor="pseudo">Pseudo </label>
@@ -19,6 +22,7 @@ const SignUpForm = () => {
         value={name}
       />
       <br />
+      <div className="pseudo-error"></div>
       <br />
       <label htmlFor="email">Email </label>
       <br />

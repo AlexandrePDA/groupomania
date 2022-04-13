@@ -14,9 +14,18 @@
     -webkit-box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
     box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
     cursor: pointer;
+    border: none;
 }
 
 @mixin hover {
     transition: all 0.8s 0s ease;
     transform: scale(1.1);
 }
+
+@mixin containerStyle {
+  border-radius: 1.5rem;
+  width: 35rem;
+  margin: auto;
+  margin-top: 4rem;
+}
+

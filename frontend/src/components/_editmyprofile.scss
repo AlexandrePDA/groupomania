@@ -1,0 +1,86 @@
+.container-edit {
+  @include containerStyle;
+  @include glassmorphism;
+  text-align: center;
+  color: white;
+  position: relative;
+  margin-bottom: 2rem;
+  .back-profile {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 1.2rem;
+    color: $colorDark;
+    background: $colorLight;
+    padding: 0.5rem;
+    border-radius: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      @include hover;
+    }
+  }
+  h1 {
+    margin: 2rem 0 1rem 0;
+    font-size: 1.7rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    label {
+      margin-bottom: 1rem;
+      color: $colorDark;
+    }
+    #avatar {
+      margin-bottom: 1rem;
+      font-size: .8rem;
+    }
+    textarea {
+      border-radius: 2rem;
+      width: 75%;
+      height: 6rem;
+      padding: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    #button {
+      border: none;
+      margin-bottom: 2rem;
+      @include buttonStyle;
+      &:hover {
+        @include hover;
+      }
+    }
+  }
+}
+
+// ******************** MediaQueries **************
+
+@media all and (max-width: 606px) {
+  .container-edit {
+    width: 25rem;
+  }
+}
+
+@media all and (max-width: 436px) {
+  .container-edit {
+    width: 20rem;
+    .back-profile {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 0.7rem;
+    }
+    h1 {
+        margin-top: 2.5rem;
+    }
+  }
+}
+
+@media all and (max-width: 344px) {
+  .container-edit {
+    width: 18rem;
+  }
+}

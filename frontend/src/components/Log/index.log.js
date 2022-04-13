@@ -16,7 +16,6 @@ const Log = () => {
       setSignUpModal(false);
       setSignInModal(true);
     }
-    console.log(e.target.id);
   };
 
   return (

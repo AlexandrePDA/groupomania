@@ -3,10 +3,7 @@ body {
 }
 
 .connectionForm {
-  border-radius: 1.5rem;
-  width: 50%;
-  margin: auto;
-  margin-top: 4rem;
+  @include containerStyle;
   @include glassmorphism;
 
   ul {
@@ -25,3 +22,34 @@ body {
       background: $colorLight;
   }
 }
+
+
+// **************** MediaQueries *******************
+@media all and (max-width:606px) {
+  .connectionForm {
+    width: 25rem;
+  }
+}
+
+@media all and (max-width:436px) {
+  .connectionForm {
+    width: 20rem;
+  }
+}
+
+@media all and (max-width:344px) {
+  .connectionForm {
+    width: 18rem;
+    ul {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      li {
+        margin: 1rem 0 .2rem 0;
+      }
+    }
+  }
+}
+
+

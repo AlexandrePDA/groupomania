@@ -11,8 +11,8 @@ const SignInForm = () => {
     const passwordError = document.querySelector(".password-error");
 
     axios({
-      method: "post",
-      url: `http://localhost:3000/api/users/login`,
+      method: "POST",
+      url: "http://localhost:3000/api/users/login",
       withCredentials: true,
       data: {
         email,
@@ -32,6 +32,8 @@ const SignInForm = () => {
         console.log(error);
       });
   };
+
+
 
   return (
     <form action="" onSubmit={handleLogin} id="sign-form">

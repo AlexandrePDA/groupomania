@@ -5,12 +5,12 @@
         border-radius: 1rem;
         border: none;
         height: 2rem;
-        width: 30%;
+        width: 14rem; 
     }
-    #email, #password {
+    #email, #password, #pseudo {
         padding-left: 1rem;
     }
-    .email-error, .password-error {
+    .email-error, .password-error, .pseudo-error{
         color: rgb(146, 5, 5);
     }
     #button {
