@@ -5,10 +5,21 @@ const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const emailError = document.querySelector(".email-error");
+  const passwordError = document.querySelector(".password-error");
+
+  // Regex
+  const emailValidator = () => {
+    const regEx = /^[A-Za-z0-9\-.]+@([A-Za-z0-9-]+.)+[A-Za-z0-9-]{2,4}$/;
+    if(!regEx.test(email) || setEmail === "") {
+      emailError.innerHTML = "Veuillez remplir correctement le champ"
+    } else {
+      emailError.innerHTML = ""
+    }
+  }
+
   const handleLogin = (e) => {
     e.preventDefault();
-    const emailError = document.querySelector(".email-error");
-    const passwordError = document.querySelector(".password-error");
 
     axios({
       method: "POST",
@@ -43,6 +54,7 @@ const SignInForm = () => {
         type="text"
         name="email"
         id="email"
+        required
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
@@ -55,13 +67,14 @@ const SignInForm = () => {
         type="password"
         name="password"
         id="password"
+        required
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
       <br />
       <div className="password-error"></div>
       <br />
-      <input type="submit" id="button" value="Se connecter" />
+      <input type="submit" id="button" onClick={emailValidator} value="Se connecter" />
     </form>
   );
 };
