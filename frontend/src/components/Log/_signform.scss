@@ -6,8 +6,6 @@
         border: none;
         height: 2rem;
         width: 14rem; 
-    }
-    #email, #password, #pseudo {
         padding-left: 1rem;
     }
     .email-error, .password-error, .pseudo-error{
@@ -20,5 +18,13 @@
         &:hover {
             @include hover;
         }
+    }
+    .alert-success {
+        background: rgba(33, 223, 33, 0.192);
+        width: 70%;
+        margin: auto;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        padding: .5rem;
     }
 }

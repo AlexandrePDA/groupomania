@@ -36,7 +36,7 @@
     }
     #avatar {
       margin-bottom: 1rem;
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
     textarea {
       border-radius: 2rem;
@@ -52,6 +52,28 @@
       &:hover {
         @include hover;
       }
+    }
+  }
+  .delete {
+    margin: auto;
+    background: rgba(255, 2, 2, 0.445);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    border-radius: 1.5rem;
+    -webkit-box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
+    box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
+    cursor: pointer;
+    border: none;
+    margin-bottom: 1.5rem;
+    padding: 0.7rem;
+
+    &:hover {
+      @include hover;
+    }
+    p {
+      margin-left: .3rem;
     }
   }
 }
@@ -74,7 +96,7 @@
       font-size: 0.7rem;
     }
     h1 {
-        margin-top: 2.5rem;
+      margin-top: 2.5rem;
     }
   }
 }

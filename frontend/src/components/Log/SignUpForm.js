@@ -1,73 +1,67 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import axios from "axios";
+import * as yup from "yup";
+
+const schema = yup.object({
+  username: yup.string().required("Ce champ est requis"),
+  email: yup.string().email("Email invalide").required("Ce champ est requis"),
+  password: yup
+    .string()
+    .min(8, "Le mot de passe doit faire minimum 8 caractères")
+    .max(20, "Le mot de passe ne doit pas faire plus de 20 caractères"),
+});
 
 const SignUpForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
 
-  const emailError = document.querySelector(".email-error");
+  const onSubmit = (data) => console.log(data);
 
-  // Regex
-  const emailValidator = () => {
-    const regEx = /^[A-Za-z0-9\-.]+@([A-Za-z0-9-]+.)+[A-Za-z0-9-]{2,4}$/;
-    if (!regEx.test(email) || setEmail === "") {
-      emailError.innerText = "Veuillez indiquer votre email";
-    } else {
-      emailError.innerText = "";
-    }
-  };
+  // connect with backend
+  const handleSignUp = useCallback( async (data) => {
+    console.log(data);
+    const res = await axios.post("http://localhost:3000/api/users/signup", data);
+    console.log(res);
+  },[]);
 
 
-  const handleSignUp = (e) => {
-    e.preventDefault()
-    console.log(name);
-  };
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   return (
-    <form action="" onSubmit={handleSignUp} id="sign-form">
+    <form onSubmit={handleSubmit(handleSignUp)} id="sign-form">
+      {isSubmitSuccessful && <div className="alert-success">Vous êtes bien inscrit.<br/> Veuillez vous connecter<br /></div>}
       <label htmlFor="pseudo">Pseudo</label>
       <br />
-      <input
-        type="text"
-        name="pseudo"
-        id="pseudo"
-        required
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-      />
+      <input {...register("username")} />
       <br />
+      {errors.username && <div>{errors.username.message}</div>}
       <br />
       <label htmlFor="email">Email </label>
       <br />
-      <input
-        type="text"
-        name="email"
-        id="email"
-        required
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
+      <input {...register("email")} />
       <br />
-      <div className="email-error"></div>
+      {errors.email && <div>{errors.email.message}</div>}
       <br />
       <label htmlFor="password">Mot de passe</label>
       <br />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        required
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
+      <input {...register("password")} type='password' />
       <br />
-      <div className="password-error"></div>
+      {errors.password && <div>{errors.password.message}</div>}
       <br />
       <input
         type="submit"
         id="button"
-        onClick={emailValidator}
         value="Se connecter"
+        onSubmit={onSubmit}
       />
     </form>
   );

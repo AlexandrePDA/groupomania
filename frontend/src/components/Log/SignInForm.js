@@ -1,80 +1,62 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
+import { Navigate } from "react-router-dom"
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
+import * as yup from "yup";
+
+const schema = yup.object({
+  email: yup.string().email("Email invalide").required("Ce champ est requis"),
+  password: yup
+    .string()
+    .min(8, "Le mot de passe doit faire minimum 8 caractères")
+    .max(20, "Le mot de passe ne doit pas faire plus de 20 caractères"),
+});
 
 const SignInForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const emailError = document.querySelector(".email-error");
-  const passwordError = document.querySelector(".password-error");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
+  
+  const onSubmit = () =>  <Navigate replace to="http://localhost:3002/" />;
 
-  // Regex
-  const emailValidator = () => {
-    const regEx = /^[A-Za-z0-9\-.]+@([A-Za-z0-9-]+.)+[A-Za-z0-9-]{2,4}$/;
-    if(!regEx.test(email) || setEmail === "") {
-      emailError.innerHTML = "Veuillez remplir correctement le champ"
-    } else {
-      emailError.innerHTML = ""
-    }
-  }
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    axios({
-      method: "POST",
-      url: "http://localhost:3000/api/users/login",
-      withCredentials: true,
-      data: {
-        email,
-        password,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.data.errors) {
-          emailError.innerHTML = res.data.errors.email;
-          passwordError.innerHTML = res.data.errors.password;
-        } else {
-          window.location = "/";
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // connect with backend
+  const handleLogin = useCallback( async (data) => {
+    console.log(data);
+    const res = await axios.post("http://localhost:3000/api/users/login", data);
+    const token = await res.data.data.token;
+    localStorage.setItem('token', token);
+    <Navigate replace to="http://localhost:3002/" />
+  },[]);
 
 
 
   return (
-    <form action="" onSubmit={handleLogin} id="sign-form">
+    <form action="" onSubmit={handleSubmit(handleLogin)}  id="sign-form">
       <label htmlFor="email">Email </label>
       <br />
-      <input
-        type="text"
-        name="email"
-        id="email"
-        required
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
+      <input {...register("email")} />
       <br />
-      <div className="email-error"></div>
+      {errors.email && <div>{errors.email.message}</div>}
       <br />
       <label htmlFor="password">Mot de passe</label>
       <br />
+      <input {...register("password")} type='password' />
+      <br />
+      {errors.password && <div>{errors.password.message}</div>}
+      <br />
       <input
-        type="password"
-        name="password"
-        id="password"
-        required
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
+        type="submit"
+        id="button"
+        value="Se connecter"
+        onSubmit={onSubmit}
       />
-      <br />
-      <div className="password-error"></div>
-      <br />
-      <input type="submit" id="button" onClick={emailValidator} value="Se connecter" />
     </form>
   );
 };

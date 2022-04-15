@@ -33,12 +33,12 @@ exports.signup = async (req, res, next) => {
     return res.status(401).json({message: "Pas d'espace, longueur entre 8 et 20 caractères, minimum 1 chiffre, 1 minuscule et 1 majuscule"});
   }
   const hash = bcrypt.hashSync(req.body.password, 10);
-  const { email, name } = req.body;
+  const { email, username } = req.body;
   let user = await prisma.user.create({
     data: {
       email,
       password: hash,
-      name,
+      username,
       profile: {
         create: {
           bio: "Dites-nous en plus sur vous !",
