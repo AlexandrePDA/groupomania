@@ -2,6 +2,7 @@ import React from "react";
 import { BiTimeFive } from "react-icons/bi"
 
 const Card = (item) => {
+  
   const takeDate = item.props.createAt.split("T")[0];
 
   const takeHour = item.props.createAt.split("T")[1].split(".")[0];
@@ -24,8 +25,9 @@ const Card = (item) => {
     return dateOk;
   };
 
+console.log(item.props);
   return (
-    <div className="card">
+    <li className="card" key={item.props.id}>
       <div className="info">
         <img src={item.props.user.profile.image} alt="" />
         <p className="username">{item.props.user.username}</p>
@@ -42,7 +44,7 @@ const Card = (item) => {
       </div>
 
       <div className="like_and_comment"></div>
-    </div>
+    </li>
   );
 };
 
