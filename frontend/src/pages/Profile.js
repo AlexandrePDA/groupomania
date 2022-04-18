@@ -5,7 +5,7 @@ import ShowProfile from '../components/ShowProfile'
 
 const Profile = () => {
     return (
-        <div>
+        <div className="container-profile">
             <ShowProfile />
         </div>
     );

@@ -26,7 +26,6 @@ const SignUpForm = () => {
 
   // connect with backend
   const handleSignUp = useCallback( async (data) => {
-    console.log(data);
     const res = await axios.post("http://localhost:3000/api/users/signup", data);
     console.log(res);
   },[]);
@@ -60,7 +59,7 @@ const SignUpForm = () => {
       <input
         type="submit"
         id="button"
-        value="Se connecter"
+        value="S'inscrire"
         onSubmit={onSubmit}
       />
     </form>

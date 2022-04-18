@@ -24,6 +24,8 @@ const ShowProfile = () => {
     showMyProfile();
   }, []);
 
+  // verfication si connecté ou non
+  // const getLocalStorage = localStorage.getItem("token")
 
   return (
     <div>

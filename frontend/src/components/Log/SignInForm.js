@@ -28,7 +28,6 @@ const SignInForm = () => {
 
   // connect with backend
   const handleLogin = useCallback( async (data) => {
-    console.log(data);
     const res = await axios.post("http://localhost:3000/api/users/login", data);
     const token = await res.data.data.token;
     localStorage.setItem('token', token);

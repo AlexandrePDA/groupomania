@@ -19,26 +19,31 @@ const Log = () => {
   };
 
   return (
-    <div className="connectionForm">
-      <div className="formContainer">
-        <ul>
-          <li
-            onClick={handleModals}
-            id="register"
-            className={signUpModal ? "active-btn" : ""}
-          >
-            S'inscire
-          </li>
-          <li
-            onClick={handleModals}
-            id="login"
-            className={signInModal ? "active-btn" : ""}
-          >
-            Se connecter
-          </li>
-        </ul>
-        {signUpModal && <SignUpForm />}
-        {signInModal && <SignInForm />}
+    <div className="connexion-page">
+      <h2>
+        Bienvenue à <br /> <span>Groupomania</span>
+      </h2>
+      <div className="connectionForm">
+        <div className="formContainer">
+          <ul>
+            <li
+              onClick={handleModals}
+              id="register"
+              className={signUpModal ? "active-btn" : ""}
+            >
+              S'inscrire
+            </li>
+            <li
+              onClick={handleModals}
+              id="login"
+              className={signInModal ? "active-btn" : ""}
+            >
+              Se connecter
+            </li>
+          </ul>
+          {signUpModal && <SignUpForm />}
+          {signInModal && <SignInForm />}
+        </div>
       </div>
     </div>
   );

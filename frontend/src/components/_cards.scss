@@ -1,0 +1,78 @@
+.card {
+    @include glassmorphism;
+    width: 50%;
+    margin: auto;
+    margin-bottom: 5rem;
+    color: $colorDark;
+    .info {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        p {
+            margin-left: 1rem;
+        }
+        img {
+            width: 3rem;
+            border-radius: 5rem;
+        }
+    }
+    h2 {
+        font-size: 1rem;
+    }
+        .post_content {
+            background: rgba(168, 167, 167, 0.068);
+            border-radius: 1rem;
+            margin: 0 1rem 1rem 1rem;
+            padding: 1rem;
+            h2 {
+                text-decoration: underline;
+            }
+            .content {
+                margin-bottom: 1rem;
+            }
+            img {
+                width: 10rem;
+            }
+        }
+        .dateAndHour {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            color: $colorDark;
+            font-size: .7rem;
+            margin-bottom: .5rem;
+            span {
+                font-size: .8rem;
+                margin-right: .3rem;
+            }
+            .date {
+                margin-right: .4rem;
+            }
+            .hour {
+                margin-right: 1rem;
+            }
+        }
+}
+
+.scrollTop {
+    color: $colorDark;
+    font-size: 2.7rem;
+    cursor: pointer;
+    margin: 0 0 2rem 1.5rem;
+}
+
+
+// ******************** MediaQueries **************
+
+@media all and (max-width: 1180px) {
+    .card {
+        width: 80%;
+  }
+}
+
+
+@media all and (max-width: 760px) {
+    .card {
+        width: 90%;
+  }
+}

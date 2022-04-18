@@ -1,9 +1,9 @@
 #sign-form {
     text-align: center;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     input {
         border-radius: 1rem;
-        border: none;
+       border: 1px solid $colorSemiDark;
         height: 2rem;
         width: 14rem; 
         padding-left: 1rem;
