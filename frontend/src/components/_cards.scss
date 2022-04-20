@@ -2,18 +2,31 @@
     @include glassmorphism;
     width: 50%;
     margin: auto;
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
     color: $colorDark;
     .info {
         display: flex;
         align-items: center;
         padding: 1rem;
-        p {
-            margin-left: 1rem;
-        }
         img {
             width: 3rem;
             border-radius: 5rem;
+        }
+        .username_btnDelete {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .username {
+                margin-left: .7rem;
+            }
+            .delete-button {
+                font-size: 1.2rem;
+                cursor: pointer;
+                &:hover {
+                    @include hover;
+                }
+            }
         }
     }
     h2 {
@@ -39,8 +52,8 @@
             justify-content: flex-end;
             align-items: center;
             color: $colorDark;
+            opacity: .5;
             font-size: .7rem;
-            margin-bottom: .5rem;
             span {
                 font-size: .8rem;
                 margin-right: .3rem;
@@ -51,6 +64,10 @@
             .hour {
                 margin-right: 1rem;
             }
+        }
+        .like_and_comment {
+            display: flex;
+            border: 1px solid red;
         }
 }
 

@@ -6,11 +6,6 @@ import { BsFillArrowUpCircleFill } from "react-icons/bs";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  // const [connect, setConnect] = useState(false);
-
-  //   verfication si connecté ou non
-  // const getLocalStorage = localStorage.getItem("token")
-  // console.log(getLocalStorage);
 
   // boutton remonte page
   const scrollTop = () => {
@@ -31,17 +26,10 @@ const Home = () => {
     };
     fetchPosts();
 
-    //   const haveToken = () => {
-    //     const token = localStorage.getItem('token');
-    //     if(token != null) {
-    //        return setConnect(true)
-    //     } else {
-    //         return setConnect(false)
-    //     }
-    // }
-    // console.log(connect);
-    // haveToken()
   }, []);
+
+  // ********** SI JE MET POST ENTRE CROCHET REQUETE INFINIS MAIS TOUT S'ACTUALISE EN DIRECT
+ 
 
   return (
     <div>

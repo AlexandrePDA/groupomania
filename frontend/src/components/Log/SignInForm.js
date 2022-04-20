@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
@@ -15,6 +15,8 @@ const schema = yup.object({
 
 const SignInForm = () => {
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -23,16 +25,19 @@ const SignInForm = () => {
     resolver: yupResolver(schema)
   });
   
-  const onSubmit = () =>  <Navigate replace to="http://localhost:3002/" />;
 
 
   // connect with backend
   const handleLogin = useCallback( async (data) => {
     const res = await axios.post("http://localhost:3000/api/users/login", data);
     const token = await res.data.data.token;
+    const user = await res.data.data.username;
+    const userId = await res.data.data.id;
     localStorage.setItem('token', token);
-    <Navigate replace to="http://localhost:3002/" />
-  },[]);
+    localStorage.setItem('username', user);
+    localStorage.setItem('userId', userId)
+    navigate('/');
+  },[navigate]);
 
 
 
@@ -54,7 +59,6 @@ const SignInForm = () => {
         type="submit"
         id="button"
         value="Se connecter"
-        onSubmit={onSubmit}
       />
     </form>
   );

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { BiLoaderCircle } from 'react-icons/bi'
 import EditMyProfile from '../components/EditMyProfile';
 
 const EditProfile = () => {
     return (
         <div>
-            <EditMyProfile/>
+            <Suspense fallback={<div className> <BiLoaderCircle/> </div>}>
+                <EditMyProfile/>
+            </Suspense>
         </div>
     );
 };

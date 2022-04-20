@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -18,17 +18,18 @@ const schema = yup.object({
 
 const EditMyProfile = () => {
 
+    const navigate = useNavigate();
+    const inputFileRef = useRef();
+
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
       } = useForm({
         resolver: yupResolver(schema),
       });
 
-    const submitPrevent = (e) => {
-        e.preventdefault()
-    }
 
     // delete profile
     const handleDelete = async () => {
@@ -38,19 +39,28 @@ const EditMyProfile = () => {
             },
         }); 
         localStorage.clear();
-        console.log(res);
+        navigate('/connexion');
     }
 
     // modif picture + bio => NE MARCHE PAS 401 Unauthorized MALGRE LE TOKEN
-    const handleModif =  async (data) => {
-        console.log(data);
-        const res = await axios.put("http://localhost:3000/api/profiles/71", {
+    const handleModif =  useCallback(async (data) => {
+        const file = inputFileRef.current.files[0];
+        if (!file) {
+            setError('image', 'Requis');
+          }
+          const formData = new FormData();
+          formData.append('image', file);
+      formData.append('bio', data.bio);
+        const res = await axios.put("http://localhost:3000/api/profiles/71", formData, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'multipart/form-data',
+
             },
         });  
-        console.log(res);
-    };
+        navigate('/Profile');
+    }, [navigate, setError]
+    );
 
 
     return (
@@ -69,7 +79,7 @@ const EditMyProfile = () => {
                 {errors.bio && <div className="error-bio">{errors.bio.message}</div>}
 
 
-                <input type="submit" id="button" value="Modifier" onClick={submitPrevent}/>
+                <input ref={inputFileRef} type="submit" id="button" value="Modifier" />
             </form>
                 <button className="delete" onClick={handleDelete}><BsTrashFill/> <p>Supprimer mon profil</p> </button>
         </div>

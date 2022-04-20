@@ -52,6 +52,7 @@ exports.signup = async (req, res, next) => {
     ...user,
     token,
   };
+  delete user.password;
   return user;
 };
 

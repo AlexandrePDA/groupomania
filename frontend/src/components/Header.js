@@ -5,12 +5,15 @@ import { BiHomeSmile } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
+
+
   return (
     <div className="header">
       <div className="header_logo">
         <img src={Logo} alt="logo Groupomania" />
         <p>Groupomania</p>
       </div>
+      <p>{}</p>
       <div className="nav">
         <NavLink to="/" className={(nav) => nav.isActive ? "nav-active nav_home" : "nav_home"}>
           <BiHomeSmile />

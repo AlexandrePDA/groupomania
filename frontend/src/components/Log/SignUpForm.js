@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
@@ -31,9 +31,7 @@ const SignUpForm = () => {
   },[]);
 
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+  
 
   return (
     <form onSubmit={handleSubmit(handleSignUp)} id="sign-form">
