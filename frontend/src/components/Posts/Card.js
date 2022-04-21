@@ -1,12 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Comments from '../components/Comments';
-import Likes from '../components/Likes';
+import Comments from '../CommentsAndLikes/Comments';
+import Likes from '../CommentsAndLikes/Likes';
 import { BiTimeFive } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Card = (item) => {
   const [deletePost, setDeletePost] = useState(false);
+  const [postIsDelete, setPostIsDelete] = useState(false);
+  
 
   const takeDate = item.props.createAt.split("T")[0];
 
@@ -53,10 +57,18 @@ const Card = (item) => {
         },
       }
     );
-    alert("post supprimé");
+    setPostIsDelete(true)
+    const alertPostDelete = setTimeout(() => {
+      setPostIsDelete(false)
+    }, 3500)
   };
 
   return (
+    <>
+    {postIsDelete? (<Stack className="alert-success"  spacing={2}>
+      <Alert severity="success">Le post a été supprimé avec succès</Alert>
+    </Stack>) : ("")}
+
     <li className="card" key={item.props.id}>
       <div className="info">
         <img src={item.props.user.profile.image} alt="" />
@@ -85,10 +97,11 @@ const Card = (item) => {
       </div>
 
       <div className="like_and_comment">
-        <Comments props={item}/>
         <Likes props={item}/>
+        <Comments props={item}/>
       </div>
     </li>
+    </>
   );
 };
 

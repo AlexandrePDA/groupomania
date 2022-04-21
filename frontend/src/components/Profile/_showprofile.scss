@@ -75,6 +75,11 @@
 @media all and (max-width: 606px) {
   .showProfilInfo {
     width: 25rem;
+    .picture {
+      #avatar {
+        width: 60%;
+      }
+    }
   }
 }
 

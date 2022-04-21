@@ -8,11 +8,12 @@ const Comments = (item) => {
   const handleShowComments = () => {
       setShowComments(!showComments);
   }
+  console.log(item);
 
 
   return (
-    <div onClick={handleShowComments} className="comments">
-      <div className="icon_length">
+    <div  className="comments">
+      <div onClick={handleShowComments} className="icon_length">
         <FaRegCommentAlt />
         <p className="comment_length">{item.props.props.commentaire.length}</p>
         <br/>

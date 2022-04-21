@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 exports.addLike = async (req, res, next) => {
   try {
     const {postId} = req.params;
-    console.log(req.params);
     const userId = req.user.id;
     const addLike = await prisma.likes.create({
       data: {

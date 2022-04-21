@@ -1,3 +1,8 @@
+.alert-success {
+    width: 50%;
+    margin: 1rem auto;
+}
+
 .card {
     @include glassmorphism;
     width: 50%;
@@ -37,6 +42,10 @@
             border-radius: 1rem;
             margin: 0 1rem 1rem 1rem;
             padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             h2 {
                 text-decoration: underline;
             }
@@ -44,7 +53,9 @@
                 margin-bottom: 1rem;
             }
             img {
-                width: 10rem;
+                width: 50%;
+                object-fit: cover;
+                border-radius: 1rem;
             }
         }
         .dateAndHour {
@@ -54,6 +65,7 @@
             color: $colorDark;
             opacity: .5;
             font-size: .7rem;
+            margin-top: 1.2rem;
             span {
                 font-size: .8rem;
                 margin-right: .3rem;
@@ -67,7 +79,7 @@
         }
         .like_and_comment {
             display: flex;
-            border: 1px solid red;
+            margin-bottom: 1rem;
         }
 }
 
@@ -82,6 +94,9 @@
 // ******************** MediaQueries **************
 
 @media all and (max-width: 1180px) {
+    .alert-success {
+        width: 80%;
+    }
     .card {
         width: 80%;
   }
@@ -89,7 +104,22 @@
 
 
 @media all and (max-width: 760px) {
+    .alert-success {
+        width: 90%;
+    }
     .card {
         width: 90%;
   }
+}
+
+@media all and (max-width: 520px) {
+    .card {
+        .post_content {
+
+            img {
+    
+                width: 100%;
+            }
+        }
+    }
 }

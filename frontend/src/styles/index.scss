@@ -3,9 +3,9 @@
 @import '../components/Log/log.scss';
 @import '../components/header';
 @import '../components/Log/signform';
-@import '../components/showprofile';
-@import '../components/editmyprofile';
-@import '../components/cards';
-@import '../components/postonepost';
-@import '../components/comments';
-@import '../components/likes';
+@import '../components/Profile/showprofile';
+@import '../components/Profile/editmyprofile';
+@import '../components/Posts/cards';
+@import '../components/Posts/postonepost';
+@import '../components/CommentsAndLikes/comments';
+@import '../components/CommentsAndLikes/likes';

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "../components/Card";
-import PostOnePost from "../components/PostOnePost";
+import Card from "../components/Posts/Card";
+import PostOnePost from "../components/Posts/PostOnePost";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
+
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
