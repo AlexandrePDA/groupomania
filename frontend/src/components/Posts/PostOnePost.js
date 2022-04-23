@@ -18,12 +18,10 @@ const schema = yup.object({
     .required(),
 });
 
-const PostOnePost = () => {
-  const [post, setPost] = useState('');
+const PostOnePost = ({refetch}) => {
 
   const inputFileRef = useRef();
 
-  console.log(post);
 
   const {
     register,
@@ -45,26 +43,31 @@ const PostOnePost = () => {
       formData.append('title', data.title);
       formData.append('content', data.content);
       formData.append('image', file);
-      const res = await axios.post(
-        'http://localhost:3000/api/posts/',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      setPost(res.data.data);
+      try {
+        await axios.post(
+          'http://localhost:3000/api/posts/',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        refetch();
+      } catch (error) {
+        alert('error')
+        console.log(error);
+      }
     },
-    [setError]
+    [setError, refetch]
   );
 
 
   return (
     <div className="post">
       <p>Quoi de neuf aujourd'hui ?</p>
-      <form action="" onSubmit={handleSubmit(handlePost)}>
+      <form onSubmit={handleSubmit(handlePost)}>
         <textarea
           {...register('title')}
           type="text"

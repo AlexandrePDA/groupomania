@@ -34,11 +34,12 @@ const Card = (item) => {
     return dateOk;
   };
 
+  // verfiy if is our post
   useEffect(() => {
     const verifyDeletePost = () => {
       const userId = localStorage.getItem("userId");
       const postId = item.props.userId;
-      if (userId == postId) {
+      if (Number(userId) === postId) {
         return setDeletePost(true);
       } else {
         return setDeletePost(false);
@@ -48,6 +49,7 @@ const Card = (item) => {
   }, [item.props.userId]);
 
 
+  // delete post
   const handleDelete = async () => {
     const res = await axios.delete(
       `http://localhost:3000/api/posts/${item.props.id}`,

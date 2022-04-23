@@ -17,6 +17,7 @@ exports.createComment = async (req, res, next) => {
         },
         post: { connect: { id: Number(postId) } },
       },
+      include: {user: true}
     });
     res.status(200).json({
       status: true,

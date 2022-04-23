@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,7 +6,7 @@ import * as yup from "yup";
 import CardComm from "./CardComm";
 
 const schema = yup.object({
-  content: yup
+  comment: yup
     .string()
     .min(1, "Veuillez remplir le champ")
     .max(35, "Pas plus de 35 caractères")
@@ -18,14 +18,23 @@ const ReadAndAddComment = (item) => {
 
   // maps pour obtenir tous les commentaires par post
   const commentaires = item.props.props.props.commentaire;
-  const commentaireMap = commentaires.map((comm) => comm.comment);
 
+  const commentaireMap = useMemo(() => commentaires.map((comm) => comm.comment)
+  , [commentaires]) 
+
+  
   const {
     register,
     handleSubmit,
+    formState : {errors},
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  console.log(errors);
+  // rajouter message error.comment.message 
+
+  console.log(item.props.props.props.id);
 
   // backend
   const handlePostComment = useCallback(
@@ -58,7 +67,7 @@ const ReadAndAddComment = (item) => {
       </ul>
 
       {/* Nouveau commentaire */}
-      {item.props.props.props.commentaire.length > 0? (<form onSubmit={handleSubmit(handlePostComment)} action="">
+   <form onSubmit={handleSubmit(handlePostComment)}>
         <textarea
           {...register("comment")}
           name="comment"
@@ -68,19 +77,7 @@ const ReadAndAddComment = (item) => {
           placeholder="Réagissez..." 
         ></textarea>
         <input type="submit" id="button" value="Commentez" />
-      </form>) : (
-        <form onSubmit={handleSubmit(handlePostComment)} action="">
-        <textarea
-          {...register("comment")}
-          name="comment"
-          id="comment"
-          cols="25"
-          rows="2"
-          placeholder="Commentez en premier"
-        ></textarea>
-        <input type="submit" id="button" value="Commentez" />
       </form>
-      ) }
       
     </div>
   );

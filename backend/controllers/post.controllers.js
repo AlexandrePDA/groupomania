@@ -9,19 +9,21 @@ exports.createPost = async (req, res, next) => {
   try {
     const { title, content, imageAltText } = req.body;
     const userId = req.user.id;
-    const image = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
+    const data = {
+      title,
+      content,
+      user: {
+        connect: { id: userId },
+      }
+    };
+    if ( req.file) {
+      data.image = `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`;
+      data.imageAltText = imageAltText;
+    }
     const post = await prisma.post.create({
-      data: {
-        title,
-        content,
-        image,
-        imageAltText,
-        user: {
-          connect: { id: userId },
-        },
-      },
+      data, 
     });
     res.status(200).json({
       status: true,

@@ -30,6 +30,8 @@ const EditMyProfile = () => {
         resolver: yupResolver(schema),
       });
 
+      console.log(errors);
+
 
     // delete profile
     const handleDelete = async () => {
@@ -59,7 +61,7 @@ const EditMyProfile = () => {
             },
         });  
         navigate('/Profile');
-    }, [navigate, setError]
+    }, [navigate, setError, inputFileRef.current]
     );
 
 
@@ -71,7 +73,7 @@ const EditMyProfile = () => {
             <h1>Modifier le profil</h1>
             <form action="submit" onSubmit={handleSubmit(handleModif)}>
                 <label htmlFor="image">Modifier la photo <MdAddAPhoto/> </label>
-                <input type="file" id="image" name="image"
+                <input type="file" id="image" ref={inputFileRef} name="image"
        accept="image/png, image/jpeg, image/jpg"/>
 
                 <label htmlFor="bio">Modifier la bio <BsFillChatTextFill/> </label>
@@ -79,7 +81,7 @@ const EditMyProfile = () => {
                 {errors.bio && <div className="error-bio">{errors.bio.message}</div>}
 
 
-                <input ref={inputFileRef} type="submit" id="button" value="Modifier" />
+                <input type="submit" id="button" value="Modifier" />
             </form>
                 <button className="delete" onClick={handleDelete}><BsTrashFill/> <p>Supprimer mon profil</p> </button>
         </div>

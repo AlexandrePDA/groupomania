@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../components/Posts/Card";
 import PostOnePost from "../components/Posts/PostOnePost";
@@ -16,25 +16,23 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
       const res = await axios.get("http://localhost:3000/api/posts/", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       setPosts(res.data.data);
-    };
-    fetchPosts();
+  }, [])
 
-  }, []);
+  useEffect(() => {
+    fetchPosts()
+  }, [fetchPosts]);
 
-  // ********** SI JE MET POST ENTRE CROCHET REQUETE INFINIS MAIS TOUT S'ACTUALISE EN DIRECT
- 
 
   return (
     <div>
-      <PostOnePost />
+      <PostOnePost refetch={fetchPosts}/>
       {posts.map((item) => (
         <Card key={item.id} props={item} />
       ))}
