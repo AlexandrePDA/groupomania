@@ -22,6 +22,7 @@
   }
   .nav {
     display: flex;
+    align-items: center;
     .nav_home, .nav_profile {
       color: $colorSemiLight;
       cursor: pointer;

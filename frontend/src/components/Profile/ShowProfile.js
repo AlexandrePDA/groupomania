@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiFillSetting } from "react-icons/ai";
+
 
 
 const ShowProfile = () => {
@@ -9,8 +10,16 @@ const ShowProfile = () => {
   let [username, setUsername] = useState("");
   let [bio, setBio] = useState("")
 
-  useEffect(() => {
+  const navigate = useNavigate();
 
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/connexion");
+  };
+
+  // get profile
+  useEffect(() => {
     const showMyProfile = async () => {
       const res = await axios.get("http://localhost:3000/api/users/profile", {
           headers: {
@@ -24,8 +33,7 @@ const ShowProfile = () => {
     showMyProfile();
   }, []);
 
-  // verfication si connecté ou non
-  // const getLocalStorage = localStorage.getItem("token")
+ 
 
   return (
     <div>
@@ -45,6 +53,9 @@ const ShowProfile = () => {
         <div className="bio">
           <p>Bio<br/> </p>{bio}
         </div>
+        <p className="logout" onClick={handleLogout}>
+           Se déconnecter
+          </p>
       </div>
     </div>
   );

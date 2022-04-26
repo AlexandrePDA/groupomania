@@ -14,6 +14,7 @@ const schema = yup.object({
 });
 
 const SignInForm = () => {
+ 
 
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const SignInForm = () => {
     const userId = await res.data.data.id;
     localStorage.setItem('token', token);
     localStorage.setItem('username', user);
-    localStorage.setItem('userId', userId)
+    localStorage.setItem('userId', userId);
     navigate('/');
   },[navigate]);
 
@@ -43,17 +44,17 @@ const SignInForm = () => {
 
   return (
     <form action="" onSubmit={handleSubmit(handleLogin)}  id="sign-form">
-      <label htmlFor="email">Email </label>
+      <label htmlFor="email">Email</label>
       <br />
       <input {...register("email")} />
       <br />
-      {errors.email && <div>{errors.email.message}</div>}
+      {errors.email && <div className="error">{errors.email.message}</div>}
       <br />
       <label htmlFor="password">Mot de passe</label>
       <br />
       <input {...register("password")} type='password' />
       <br />
-      {errors.password && <div>{errors.password.message}</div>}
+      {errors.password && <div className="error">{errors.password.message}</div>}
       <br />
       <input
         type="submit"

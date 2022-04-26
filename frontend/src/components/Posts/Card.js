@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Comments from '../CommentsAndLikes/Comments';
-import Likes from '../CommentsAndLikes/Likes';
+import Comments from "../CommentsAndLikes/Comments";
 import { BiTimeFive } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 const Card = (item) => {
   const [deletePost, setDeletePost] = useState(false);
   const [postIsDelete, setPostIsDelete] = useState(false);
-  
 
   const takeDate = item.props.createAt.split("T")[0];
 
@@ -34,6 +33,7 @@ const Card = (item) => {
     return dateOk;
   };
 
+
   // verfiy if is our post
   useEffect(() => {
     const verifyDeletePost = () => {
@@ -48,7 +48,6 @@ const Card = (item) => {
     verifyDeletePost();
   }, [item.props.userId]);
 
-
   // delete post
   const handleDelete = async () => {
     const res = await axios.delete(
@@ -59,50 +58,57 @@ const Card = (item) => {
         },
       }
     );
-    setPostIsDelete(true)
+    setPostIsDelete(true);
     const alertPostDelete = setTimeout(() => {
-      setPostIsDelete(false)
-    }, 3500)
+      setPostIsDelete(false);
+    }, 3500);
   };
 
   return (
     <>
-    {postIsDelete? (<Stack className="alert-success"  spacing={2}>
-      <Alert severity="success">Le post a été supprimé avec succès</Alert>
-    </Stack>) : ("")}
+      {postIsDelete ? (
+        <Stack className="alert-success" spacing={2}>
+          <Alert severity="success">Le post a été supprimé avec succès</Alert>
+        </Stack>
+      ) : (
+        ""
+      )}
 
-    <li className="card" key={item.props.id}>
-      <div className="info">
-        <img src={item.props.user.profile.image} alt="" />
-        <div className="username_btnDelete">
-          <p className="username">{item.props.user.username}</p>
-          {deletePost ? (
-            <p className="delete-button" onClick={handleDelete}>
-              <BsFillTrashFill />
-            </p>
-          ) : (
-            ""
-          )}
+      <li className="card" key={item.props.id}>
+        <div className="info">
+          <img src={item.props.user.profile.image} alt="" />
+          <div className="username_btnDelete">
+            <p className="username">{item.props.user.username}</p>
+            {deletePost ? (
+              <p className="delete-button" onClick={handleDelete}>
+                <BsFillTrashFill />
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
-      <div className="post_content">
-        <h2>{item.props.title}</h2>
-        <p className="content">{item.props.content}</p>
-        <img src={item.props.image} alt="" />
-        <div className="dateAndHour">
-          <span>
-            <BiTimeFive />
-          </span>
-          <p className="date">{formatDateInput(takeDate)}</p>
-          <p className="hour">{formatHourInput(takeHour)}</p>
+        <div className="post_content">
+          <h2>{item.props.title}</h2>
+          <p className="content">{item.props.content}</p>
+          <img src={item.props.image} alt="" />
+          <div className="dateAndHour">
+            <span>
+              <BiTimeFive />
+            </span>
+            <p className="date">{formatDateInput(takeDate)}</p>
+            <p className="hour">{formatHourInput(takeHour)}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="like_and_comment">
-        <Likes props={item}/>
-        <Comments props={item}/>
-      </div>
-    </li>
+        <div className="like_and_comment">
+          <div className="icon_length">
+            <p className="icon_comment"> <FaRegCommentAlt /></p>
+            <p className="comment_length">{item.props.commentaire.length}</p>
+          </div>
+        </div>
+        <Comments props={item} />
+      </li>
     </>
   );
 };

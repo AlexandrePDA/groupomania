@@ -9,7 +9,7 @@ const schema = yup.object({
   email: yup.string().email("Email invalide").required("Ce champ est requis"),
   password: yup
     .string()
-    .min(8, "Le mot de passe doit faire minimum 8 caractères")
+    .min(8, "Pas d'espace, longueur entre 8 et 20 caractères, minimum 1 chiffre, 1 minuscule et 1 majuscule")
     .max(20, "Le mot de passe ne doit pas faire plus de 20 caractères"),
 });
 
@@ -40,19 +40,19 @@ const SignUpForm = () => {
       <br />
       <input {...register("username")} />
       <br />
-      {errors.username && <div>{errors.username.message}</div>}
+      {errors.username && <div className="error">{errors.username.message}</div>}
       <br />
       <label htmlFor="email">Email </label>
       <br />
       <input {...register("email")} />
       <br />
-      {errors.email && <div>{errors.email.message}</div>}
+      {errors.email && <div className="error">{errors.email.message}</div>}
       <br />
       <label htmlFor="password">Mot de passe</label>
       <br />
       <input {...register("password")} type='password' />
       <br />
-      {errors.password && <div>{errors.password.message}</div>}
+      {errors.password && <div className="error">{errors.password.message}</div>}
       <br />
       <input
         type="submit"

@@ -30,7 +30,7 @@ const EditMyProfile = () => {
         resolver: yupResolver(schema),
       });
 
-      console.log(errors);
+      const recupereUserId = localStorage.getItem('userId')
 
 
     // delete profile
@@ -44,7 +44,8 @@ const EditMyProfile = () => {
         navigate('/connexion');
     }
 
-    // modif picture + bio => NE MARCHE PAS 401 Unauthorized MALGRE LE TOKEN
+
+    // put profile
     const handleModif =  useCallback(async (data) => {
         const file = inputFileRef.current.files[0];
         if (!file) {
@@ -53,7 +54,7 @@ const EditMyProfile = () => {
           const formData = new FormData();
           formData.append('image', file);
       formData.append('bio', data.bio);
-        const res = await axios.put("http://localhost:3000/api/profiles/71", formData, {
+        const res = await axios.put(`http://localhost:3000/api/profiles/${recupereUserId}`, formData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'multipart/form-data',
@@ -61,8 +62,9 @@ const EditMyProfile = () => {
             },
         });  
         navigate('/Profile');
-    }, [navigate, setError, inputFileRef.current]
+    }, [recupereUserId, navigate, setError]
     );
+
 
 
     return (

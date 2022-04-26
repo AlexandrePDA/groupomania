@@ -1,12 +1,7 @@
 .like {
     display: flex;
-    margin-left: 1.2rem;
     .icon-heart {
-        cursor: pointer;
-        font-size: 1.1rem;
+        margin-left: 1rem;
+        margin-right: .5rem;
     }
-    .likes_length {
-        margin-left: .5rem;
-    }
-
 }

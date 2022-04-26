@@ -20,7 +20,6 @@ const Likes = (item) => {
       []
     );
 
-  console.log(item.props.props.likes.length);
   return (
     <div className="like">
       <p onClick={handleLike} className="icon-heart">

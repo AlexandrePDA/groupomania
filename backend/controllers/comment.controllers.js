@@ -7,7 +7,6 @@ exports.createComment = async (req, res, next) => {
   try {
     const { comment } = req.body;
     const { postId  } = req.params; 
-    console.log(req.body);
     const userId = req.user.id;
     const commentaire = await prisma.commentaire.create({
       data: {
@@ -25,7 +24,6 @@ exports.createComment = async (req, res, next) => {
       data: commentaire,
     });
   } catch (error) {
-    console.log(error.message);
     console.log(error.message);
     res.status(400).json({ message: error.message });
   }

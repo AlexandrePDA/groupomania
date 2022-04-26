@@ -34,7 +34,7 @@ const Home = () => {
     <div>
       <PostOnePost refetch={fetchPosts}/>
       {posts.map((item) => (
-        <Card key={item.id} props={item} />
+        <Card key={item.id} props={item}/>
       ))}
       <BsFillArrowUpCircleFill className="scrollTop" onClick={scrollTop} />
     </div>
