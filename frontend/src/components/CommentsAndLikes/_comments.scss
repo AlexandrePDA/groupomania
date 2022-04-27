@@ -13,7 +13,22 @@
 // *********** COMMENT
 
 .comments {
-
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .9rem;
+        padding: .3rem;
+        border-radius: 1rem;
+        cursor: pointer;
+        .logoComm {
+            margin-right: .3rem;
+        }
+    }
+    .active {
+        transform: rotate(180deg);
+        color: red;
+    }
     .showComment {
         margin-left: 1rem;
         margin-right: 1rem;
@@ -21,18 +36,20 @@
             background: rgba(168, 167, 167, 0.068);
                     margin-top: .5rem ;
             border-radius: .5rem;
-            padding: .3rem;
+            padding: .5rem;
             .info_user {
                 display: flex;
                 justify-content: space-between;
                 .user_comment {
                     text-decoration: underline;
+                    
                 }
                 .trash-comm {
-                    font-size: .8rem;
+                    font-size: .75rem;
                 }
     
             }
+            
         }
     }
     form {
@@ -55,6 +72,11 @@
             }
         }
     }
+}
+
+.NoComm {
+    text-align: center;
+    margin-top: 1rem;
 }
 
 

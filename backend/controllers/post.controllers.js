@@ -50,7 +50,11 @@ exports.allPost = async (req, res, next) => {
             profile: true,
           },
         },
-        commentaire: true,
+        commentaire: {
+          include: {
+            user: true,
+          },
+        },
         likes: true,
       },
     });

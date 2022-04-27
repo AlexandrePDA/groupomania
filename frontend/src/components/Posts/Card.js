@@ -3,17 +3,26 @@ import React, { useEffect, useState } from "react";
 import Comments from "../CommentsAndLikes/Comments";
 import { BiTimeFive } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import { FaRegCommentAlt } from "react-icons/fa";
 
-const Card = (item) => {
+const Card = ({
+  createAt,
+  userId,
+  id,
+  refetch,
+  commentaire,
+  user,
+  title,
+  image,
+  content,
+  ...props
+}) => {
   const [deletePost, setDeletePost] = useState(false);
   const [postIsDelete, setPostIsDelete] = useState(false);
 
-  const takeDate = item.props.createAt.split("T")[0];
+  // ********* gestion des dates/heures ************
+  const takeDate = createAt.split("T")[0];
 
-  const takeHour = item.props.createAt.split("T")[1].split(".")[0];
+  const takeHour = createAt.split("T")[1].split(".")[0];
 
   const formatHourInput = (takeHour) => {
     const elem = takeHour.split(":");
@@ -33,52 +42,46 @@ const Card = (item) => {
     return dateOk;
   };
 
+  
 
-  // verfiy if is our post
+   // ********* verifie si user peut supp son post ************
   useEffect(() => {
     const verifyDeletePost = () => {
-      const userId = localStorage.getItem("userId");
-      const postId = item.props.userId;
-      if (Number(userId) === postId) {
+      const localId = localStorage.getItem("userId");
+      const postId = userId;
+      if (Number(localId) === postId) {
         return setDeletePost(true);
       } else {
         return setDeletePost(false);
       }
     };
     verifyDeletePost();
-  }, [item.props.userId]);
+  }, [userId]);
 
-  // delete post
+   // ********* backend ***********
+      // delete post
   const handleDelete = async () => {
     const res = await axios.delete(
-      `http://localhost:3000/api/posts/${item.props.id}`,
+      `http://localhost:3000/api/posts/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
+    refetch();
     setPostIsDelete(true);
-    const alertPostDelete = setTimeout(() => {
-      setPostIsDelete(false);
-    }, 3500);
   };
+
+ 
 
   return (
     <>
-      {postIsDelete ? (
-        <Stack className="alert-success" spacing={2}>
-          <Alert severity="success">Le post a été supprimé avec succès</Alert>
-        </Stack>
-      ) : (
-        ""
-      )}
-
-      <li className="card" key={item.props.id}>
+      <li className="card" key={id}>
         <div className="info">
-          <img src={item.props.user.profile.image} alt="" />
+          <img src={user.profile.image} alt="" />
           <div className="username_btnDelete">
-            <p className="username">{item.props.user.username}</p>
+            <p className="username">{user.username}</p>
             {deletePost ? (
               <p className="delete-button" onClick={handleDelete}>
                 <BsFillTrashFill />
@@ -89,9 +92,9 @@ const Card = (item) => {
           </div>
         </div>
         <div className="post_content">
-          <h2>{item.props.title}</h2>
-          <p className="content">{item.props.content}</p>
-          <img src={item.props.image} alt="" />
+          <h2>{title}</h2>
+          <p className="content">{content}</p>
+          <img src={image} alt="" />
           <div className="dateAndHour">
             <span>
               <BiTimeFive />
@@ -100,17 +103,11 @@ const Card = (item) => {
             <p className="hour">{formatHourInput(takeHour)}</p>
           </div>
         </div>
-
-        <div className="like_and_comment">
-          <div className="icon_length">
-            <p className="icon_comment"> <FaRegCommentAlt /></p>
-            <p className="comment_length">{item.props.commentaire.length}</p>
-          </div>
-        </div>
-        <Comments props={item} />
+        <Comments commentaires={commentaire} id={id} userId={userId}/>
       </li>
     </>
   );
 };
 
 export default Card;
+// ***************

@@ -1,20 +1,24 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Logo from "../assets/icon.png";
 import { BiHomeSmile } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
-import { FiLogOut } from "react-icons/fi";
+
 
 const Header = () => {
 
 
   return (
     <div className="header">
+
       <div className="header_logo">
+      <NavLink
+          to="/"
+          className="header_logo">
         <img src={Logo} alt="logo Groupomania" />
         <p>Groupomania</p>
+        </NavLink>
       </div>
-      <p>{}</p>
       <div className="nav">
         <NavLink
           to="/"

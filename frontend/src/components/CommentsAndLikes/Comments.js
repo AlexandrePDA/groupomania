@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { BsFillTrashFill } from "react-icons/bs";
+import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import { FaRegCommentAlt } from 'react-icons/fa'
 
 const schema = yup.object({
   comment: yup
@@ -13,48 +15,26 @@ const schema = yup.object({
     .required(),
 });
 
-const Comments = (item) => {
-  const [usernameComm, setUsernameComm] = useState("");
-  const [deleteComment, setDeleteComment] = useState(false)
+const Comments = ({commentaires, id}) => {
+  const [show, setShow] = useState(false);
+  const [comm, setComm] = useState([]);
 
 
-  console.log(item.props.props.user.email);
 
-  const commentaires = item.props.props.commentaire;
-
-
-  const commentairesMap = commentaires.map((comm) => (comm.id))
-
-  
-
+// ********* register ************
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
 
-  // verfiy if u can delete comment with id
-  useEffect(() => {
-    const verifyDeletePost = () => {
-      const userId = localStorage.getItem("userId");
-      const commentId = commentairesMap;
-      if (Number(userId) === commentId) {
-        setDeleteComment(true)
-      } else {
-        setDeleteComment(false)
-      }
-    };
-    verifyDeletePost();
-  }, [commentairesMap]);
-
-  // backend
+  // ********** backend **********
     // post
   const handlePostComment = useCallback(async (data) => {
     const res = await axios.post(
-      `http://localhost:3000/api/posts/${item.props.props.id}/comments`,
+      `http://localhost:3000/api/posts/${id}/comments`,
       data,
       {
         headers: {
@@ -62,35 +42,76 @@ const Comments = (item) => {
         },
       }
     );
-    setUsernameComm(res.data.data.user.username);
-  }, []);
+    fetchComm();
+    setShow(true)
+  }, [id]);
+
+  // get
+  const fetchComm = useCallback(async () => {
+    const res = await axios.get(`http://localhost:3000/api/posts/${id}/comments`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setComm(res.data.data);
+}, [id])
 
   // delete
-  const handleDelete = async () => {
-    console.log("yes");
+  const handleDelete = async (commentId) => {
+    const res = await axios.delete(
+      `http://localhost:3000/api/posts/${id}/comments/${commentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    fetchComm();
   }
+
+
+
+  useEffect(() => {
+    fetchComm()
+  }, [fetchComm]);
+
+  // ******** show all comments *********
+  const handleShowComment = () => {
+    setShow(!show);
+  }
+
+
 
   return (
     <div className="comments">
-
-      <div className="showComment">
-        {commentaires.map((comm) => (
-          <ul>
-            <li key={comm.id} className="commentaires">
-              <div className="info_user">
-                <p className="user_comment">{usernameComm}</p>
-                {deleteComment ? (
-                   <p className="trash-comm" onClick={handleDelete}>
-                   <BsFillTrashFill />
-                 </p>
-                ) : ("")}
+       <span className="span" onClick={handleShowComment}> <FaRegCommentAlt className="logoComm"/>{comm.length} {comm.length>1? ('Commentaires') : ('Commentaire')}</span> 
+       {show? (
+         <div className="showComment">
+           {comm.length > 0? ("") : (<p className="NoComm">Pas de commentaire</p>)}
+         {comm.map((comm) => {
+           return (<ul>
+             <li key={comm.id} className="commentaires">
+               <div className="info_user">
+                 <p className="user_comment">{comm.user.username}</p>
+                 {Number(comm.user.id) === Number(localStorage.getItem('userId'))? 
+                 (
+                  <div>
+                    <div key={comm.id}>
+                      <p onClick={() => handleDelete(comm.id) }><BsFillTrashFill className="trash-comm" /> </p>
+                    </div>
+                </div>
+                  )
+                : ("")}
+                
+               </div>
+               {comm.comment}
                
-              </div>
-              {comm.comment}
-            </li>
-          </ul>
-        ))}
-      </div>
+             </li>
+           </ul>)
+ })}
+       </div>
+       ) : ("")}
+    
 
       <form onSubmit={handleSubmit(handlePostComment)}>
         <textarea
@@ -100,7 +121,7 @@ const Comments = (item) => {
           cols="25"
           rows="2"
           placeholder={
-            item.props.props.commentaire.length > 0
+            comm.length > 0
               ? "Réagissez"
               : "Commentez le premier"
           }
@@ -112,3 +133,5 @@ const Comments = (item) => {
 };
 
 export default Comments;
+
+

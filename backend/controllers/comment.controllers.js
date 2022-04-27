@@ -50,3 +50,39 @@ exports.deleteComment = async (req, res, next) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
+// *************
+
+// GET ALL COMMENTS BY POST
+
+exports.allComm = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const userId = req.user.id;
+    console.log(userId);
+    const allComm = await prisma.commentaire.findMany({
+      where: {
+        postId: Number(postId),
+      },
+      orderBy: {
+        createAt: "desc",
+      },
+      include: {
+        user: {
+          include: {
+            profile: true,
+          },
+        },
+      },
+    });
+    res.status(200).json({
+      status: true,
+      message: "All Comments",
+      data: allComm,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
