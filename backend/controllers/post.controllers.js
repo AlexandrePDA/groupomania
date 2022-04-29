@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 const createHttpError = require("http-errors");
 const fs = require("fs");
 
+
 // CREATE POST
 
 exports.createPost = async (req, res, next) => {
@@ -41,21 +42,41 @@ exports.createPost = async (req, res, next) => {
 exports.allPost = async (req, res, next) => {
   try {
     const allPost = await prisma.post.findMany({
-      orderBy: {
-        createAt: "desc",
-      },
-      include: {
+      select: {
+        id: true,
+        title: true, 
+        content: true,
+        image: true,
+        createAt: true,
+        userId: true,
         user: {
-          include: {
-            profile: true,
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            profile: {
+              select: {
+                image: true,
+              }
+            }
           },
         },
         commentaire: {
-          include: {
-            user: true,
+          select: {
+            id: true,
+            comment: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+                email: true,
+              },
+            },
           },
         },
-        likes: true,
+      },
+      orderBy: {
+        createAt: "desc",
       },
     });
     res.status(200).json({

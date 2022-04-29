@@ -4,7 +4,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AiFillSetting } from "react-icons/ai";
 
 
-
 const ShowProfile = () => {
   let [image, setImage] = useState("");
   let [username, setUsername] = useState("");
@@ -12,12 +11,14 @@ const ShowProfile = () => {
 
   const navigate = useNavigate();
 
-
+  // deconnexion
   const handleLogout = () => {
     localStorage.clear();
     navigate("/connexion");
+    alert('Vous êtes déconnecté')
   };
 
+// ******* Backend *******
   // get profile
   useEffect(() => {
     const showMyProfile = async () => {

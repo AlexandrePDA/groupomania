@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
 import * as yup from "yup";
 
+// Schema YUP
 const schema = yup.object({
   username: yup.string().required("Ce champ est requis"),
   email: yup.string().email("Email invalide").required("Ce champ est requis"),
@@ -13,7 +14,9 @@ const schema = yup.object({
     .max(20, "Le mot de passe ne doit pas faire plus de 20 caractères"),
 });
 
+
 const SignUpForm = () => {
+
   const {
     register,
     handleSubmit,
@@ -22,12 +25,10 @@ const SignUpForm = () => {
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data) => console.log(data);
 
   // connect with backend
   const handleSignUp = useCallback( async (data) => {
-    const res = await axios.post("http://localhost:3000/api/users/signup", data);
-    console.log(res);
+    await axios.post("http://localhost:3000/api/users/signup", data);
   },[]);
 
 
@@ -58,7 +59,6 @@ const SignUpForm = () => {
         type="submit"
         id="button"
         value="S'inscrire"
-        onSubmit={onSubmit}
       />
     </form>
   );

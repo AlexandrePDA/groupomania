@@ -8,6 +8,8 @@ const Log = () => {
   const [signUpModal, setSignUpModal] = useState(true);
   const [signInModal, setSignInModal] = useState(false);
 
+
+  // détermine si connecter ou s'inscire s'affiche selon navigation client
   const handleModals = (e) => {
     if (e.target.id === "register") {
       setSignInModal(false);

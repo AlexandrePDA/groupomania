@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+
+
 // CREATE COMMENT
 
 exports.createComment = async (req, res, next) => {
@@ -16,7 +18,6 @@ exports.createComment = async (req, res, next) => {
         },
         post: { connect: { id: Number(postId) } },
       },
-      include: {user: true}
     });
     res.status(200).json({
       status: true,
@@ -39,6 +40,17 @@ exports.deleteComment = async (req, res, next) => {
       where: {
         id: Number(id),
       },
+      select: {
+        user: {
+          select: {
+            profile: {
+              select: {
+                image: true,
+              }
+            }
+          }
+        }
+      }
     });
     res.status(200).json({
       status: true,
@@ -60,7 +72,6 @@ exports.allComm = async (req, res, next) => {
   try {
     const { postId } = req.params;
     const userId = req.user.id;
-    console.log(userId);
     const allComm = await prisma.commentaire.findMany({
       where: {
         postId: Number(postId),
@@ -68,13 +79,27 @@ exports.allComm = async (req, res, next) => {
       orderBy: {
         createAt: "desc",
       },
-      include: {
+      select: {
+        id: true,
+        comment: true,
+        createAt: true,
+        postId: true,
         user: {
-          include: {
-            profile: true,
-          },
-        },
-      },
+          select: {
+            email: true,
+            id: true,
+            isAdmin: true,
+            username: true,
+            profile: {
+              select: {
+                id: true,
+                image: true,
+                userId: true,
+              }
+            }
+          }
+        }
+      }
     });
     res.status(200).json({
       status: true,

@@ -10,7 +10,10 @@
     }
 }
 
-// *********** COMMENT
+.trash-comm {
+    cursor: pointer;
+}
+
 
 .comments {
     span {
@@ -79,21 +82,19 @@
     margin-top: 1rem;
 }
 
-
-
-
-
-
-
-
-
-
-
-// ******************** MediaQueries **************
-
-
-@media all and (max-width: 475px) {
-    
-    
+.error-content {
+    color: rgba(204, 9, 9, 0.589);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

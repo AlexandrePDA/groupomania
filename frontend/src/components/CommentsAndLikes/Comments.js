@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { BsFillTrashFill } from "react-icons/bs";
-import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import { FaRegCommentAlt } from 'react-icons/fa'
 
+
+// schema YUP
 const schema = yup.object({
   comment: yup
     .string()
@@ -15,7 +16,9 @@ const schema = yup.object({
     .required(),
 });
 
-const Comments = ({commentaires, id}) => {
+
+
+const Comments = ({ id }) => {
   const [show, setShow] = useState(false);
   const [comm, setComm] = useState([]);
 
@@ -25,15 +28,17 @@ const Comments = ({commentaires, id}) => {
   const {
     register,
     handleSubmit,
+    reset,
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
 
-  // ********** backend **********
+// ********** backend **********
     // post
   const handlePostComment = useCallback(async (data) => {
-    const res = await axios.post(
+    await axios.post(
       `http://localhost:3000/api/posts/${id}/comments`,
       data,
       {
@@ -43,6 +48,7 @@ const Comments = ({commentaires, id}) => {
       }
     );
     fetchComm();
+    reset({ comment: ""});
     setShow(true)
   }, [id]);
 
@@ -58,7 +64,7 @@ const Comments = ({commentaires, id}) => {
 
   // delete
   const handleDelete = async (commentId) => {
-    const res = await axios.delete(
+    await axios.delete(
       `http://localhost:3000/api/posts/${id}/comments/${commentId}`,
       {
         headers: {
@@ -70,17 +76,18 @@ const Comments = ({commentaires, id}) => {
   }
 
 
-
+// ******** useEffect recharge liste comm *********
   useEffect(() => {
     fetchComm()
   }, [fetchComm]);
+
 
   // ******** show all comments *********
   const handleShowComment = () => {
     setShow(!show);
   }
 
-
+ 
 
   return (
     <div className="comments">
@@ -126,6 +133,9 @@ const Comments = ({commentaires, id}) => {
               : "Commentez le premier"
           }
         ></textarea>
+         {errors.comment && (
+          <div className="error-content">{errors.comment.message}</div>
+        )}
         <input type="submit" id="button" value="Commentez" />
       </form>
     </div>

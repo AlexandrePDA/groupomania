@@ -69,8 +69,19 @@ exports.oneUserProfile = async (req, res, next) => {
       where: {
         id: Number(id),
       },
-      include: {
-        profile: true,
+      select: {
+        id: true,
+        email: true,
+        isAdmin: true,
+        username: true,
+        profile: {
+          select: {
+            bio: true,
+            id: true,
+            image: true,
+            userId: true,
+          },
+        },
       },
     });
     res.status(200).json({
@@ -140,6 +151,12 @@ exports.deleteOwn = async (req, res, next) => {
       where: {
         id: Number(id),
       },
+      select: {
+        email: true,
+        id: true,
+        isAdmin: true,
+        username: true,
+      }
     });
     res.status(201).json({
       status: true,

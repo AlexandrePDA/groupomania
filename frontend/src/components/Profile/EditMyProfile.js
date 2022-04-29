@@ -9,15 +9,17 @@ import { BsFillChatTextFill } from 'react-icons/bs';
 import { BiArrowBack } from 'react-icons/bi';
 import { BsTrashFill } from 'react-icons/bs';
 
+// Schema YUP
 const schema = yup.object({
     bio: yup
       .string()
       .min(1, "Veuillez remplir le champ")
       .max(200, "Pas plus de 200 caractères")
+      .required(false)
   });
 
-const EditMyProfile = () => {
 
+const EditMyProfile = () => {
     const navigate = useNavigate();
     const inputFileRef = useRef();
 
@@ -32,15 +34,16 @@ const EditMyProfile = () => {
 
       const recupereUserId = localStorage.getItem('userId')
 
-
+// ********* Backend ***********
     // delete profile
     const handleDelete = async () => {
-        const res = await axios.delete("http://localhost:3000/api/users/", {
+        await axios.delete("http://localhost:3000/api/users/", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             },
         }); 
         localStorage.clear();
+        alert('Votre compte est supprimé')
         navigate('/connexion');
     }
 
@@ -54,7 +57,7 @@ const EditMyProfile = () => {
           const formData = new FormData();
           formData.append('image', file);
       formData.append('bio', data.bio);
-        const res = await axios.put(`http://localhost:3000/api/profiles/${recupereUserId}`, formData, {
+        await axios.put(`http://localhost:3000/api/profiles/${recupereUserId}`, formData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'multipart/form-data',
