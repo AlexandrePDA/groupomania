@@ -170,10 +170,11 @@ exports.deletePost = async (req, res, next) => {
           status: true,
           message: "Post deleted !",
         });
-      } catch (e) {
-        console.log(error.message);
+      } catch (error) {
         res.status(400).json({ message: error.message });
       }
     });
+  } else {
+    res.status(403).json({message: "pas autorisé"})
   }
 };

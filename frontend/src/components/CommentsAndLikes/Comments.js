@@ -100,7 +100,7 @@ const Comments = ({ id }) => {
              <li key={comm.id} className="commentaires">
                <div className="info_user">
                  <p className="user_comment">{comm.user.username}</p>
-                 {Number(comm.user.id) === Number(localStorage.getItem('userId'))? 
+                 {Number(comm.user.id) === Number(localStorage.getItem('userId')) || Number(localStorage.getItem("userId")) === 93? 
                  (
                   <div>
                     <div key={comm.id}>

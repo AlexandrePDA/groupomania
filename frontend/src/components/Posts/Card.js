@@ -44,6 +44,10 @@ const Card = ({
    // ********* backend ***********
       // delete post
   const handleDelete = async () => {
+    const isConfirm = window.confirm("Êtes-vous sûrs de supprimer le post?")
+    if(!isConfirm) {
+      return;
+    }
     await axios.delete(
       `http://localhost:3000/api/posts/${id}`,
       {
@@ -56,7 +60,6 @@ const Card = ({
   };
 
 
-//  *******************
 
   return (
     <>
@@ -65,7 +68,7 @@ const Card = ({
           <img src={user.profile.image} alt="" />
           <div className="username_btnDelete">
             <p className="username">{user.username}</p>
-            {Number(localStorage.getItem("userId")) === userId ? (
+            {Number(localStorage.getItem("userId")) === userId || Number(localStorage.getItem("userId")) === 93 ? (
               <p className="delete-button" onClick={handleDelete}>
                 <BsFillTrashFill />
               </p>
@@ -93,4 +96,3 @@ const Card = ({
 };
 
 export default Card;
-// ***************

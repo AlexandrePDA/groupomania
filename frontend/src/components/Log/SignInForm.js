@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,6 +17,7 @@ const schema = yup.object({
 
 
 const SignInForm = () => {
+  const [errorCo, setErrorCo] = useState(false)
   const navigate = useNavigate();
 
   const {
@@ -28,23 +29,30 @@ const SignInForm = () => {
   });
   
 
-
   // connect with backend + stock in LS
   const handleLogin = useCallback( async (data) => {
-    const res = await axios.post("http://localhost:3000/api/users/login", data);
-    const token = await res.data.data.token;
-    const user = await res.data.data.username;
-    const userId = await res.data.data.id;
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', user);
-    localStorage.setItem('userId', userId);
-    navigate('/');
+    try {
+      
+      const res = await axios.post("http://localhost:3000/api/users/login", data);
+      const token = await res.data.data.token;
+      const user = await res.data.data.username;
+      const userId = await res.data.data.id;
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', user);
+      localStorage.setItem('userId', userId);
+      navigate('/');
+    } catch (error) {
+      if(error.message === "Request failed with status code 400") {
+        setErrorCo(true)
+      }
+    }
   },[navigate]);
 
 
 
   return (
     <form action="" onSubmit={handleSubmit(handleLogin)}  id="sign-form">
+      {errorCo && <div className="error">Email ou mot de passe incorrect</div>}
       <label htmlFor="email">Email</label>
       <br />
       <input {...register("email")} />

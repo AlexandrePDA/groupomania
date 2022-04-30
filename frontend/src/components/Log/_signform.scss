@@ -1,6 +1,6 @@
 #sign-form {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     input {
         border-radius: 1rem;
        border: 1px solid $colorSemiDark;
@@ -27,6 +27,11 @@
         border-radius: 1rem;
         padding: .5rem;
     }
+}
+.errorGeneral {
+    color: rgba(190, 3, 3, 0.699);
+    margin-top: -1rem;
+    margin-bottom: .5rem;
 }
 
 .error {

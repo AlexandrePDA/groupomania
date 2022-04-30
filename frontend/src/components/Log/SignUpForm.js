@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
@@ -16,11 +16,13 @@ const schema = yup.object({
 
 
 const SignUpForm = () => {
+  const [inscrit, setInscrit] = useState(false);
+  const [errorCo, setErrorCo] = useState(false)
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema)
   });
@@ -28,7 +30,16 @@ const SignUpForm = () => {
 
   // connect with backend
   const handleSignUp = useCallback( async (data) => {
-    await axios.post("http://localhost:3000/api/users/signup", data);
+    try {
+      await axios.post("http://localhost:3000/api/users/signup", data);
+      setInscrit(true)
+      setErrorCo(false)
+    } catch (error) {
+      if(error.message === "Request failed with status code 500") {
+        setInscrit(false)
+        setErrorCo(true)
+      }
+    }
   },[]);
 
 
@@ -36,7 +47,8 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSubmit(handleSignUp)} id="sign-form">
-      {isSubmitSuccessful && <div className="alert-success">Vous êtes bien inscrit.<br/> Veuillez vous connecter<br /></div>}
+      {errorCo && <div className="error">Email ou mot de passe déjà utilisé</div>}
+      {inscrit && <div className="alert-success">Vous êtes bien inscrit.<br/> Veuillez vous connecter<br /></div>}
       <label htmlFor="pseudo">Pseudo</label>
       <br />
       <input {...register("username")} />

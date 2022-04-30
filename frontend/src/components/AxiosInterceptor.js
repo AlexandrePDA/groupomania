@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+
 
 const AxiosInterceptor = ({ children }) => {
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ const AxiosInterceptor = ({ children }) => {
     const interceptorRes = axios.interceptors.response.use(resInterceptorRes, errInterceptorRes);
 
     const reqInterceptorReq = (request) => {
+        
         request.headers = {
             authorization: `Bearer ${localStorage.getItem('token')}`,
         };
@@ -28,6 +31,13 @@ const AxiosInterceptor = ({ children }) => {
     };
 
     const interceptorReq = axios.interceptors.request.use(reqInterceptorReq, errInterceptorReq)
+
+    useEffect(() => {
+        return () => {
+            axios.interceptors.response.eject(interceptorRes);
+            axios.interceptors.request.eject(interceptorReq);
+        }
+    }, [])
 
     return children;
 
